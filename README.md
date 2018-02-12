@@ -9,13 +9,16 @@ Each data block has a shape such as a circle, a bar. The size of a block is dete
 - [ ] Apply basic Physic Laws on all objects (gravity, collision, damping force)
 - [ ] Make sounds on collisions
 - [ ] Randomly get data and bound it to a object, and let the object fall from sky
-- [ ] Score on hitting the falling data blocks
+- [ ] Score on hitting the falling data blocks   
+
 In addition:
 - [ ] Add character picture
 - [ ] Make rotating objects
 
 ## Wireframe
-This game has one single screen with the `svg` element created by `D3`. The playing area is in the center of the screen. There are instructions on the left, score board on the right, mute sound button, and links to my personal sites.
+This game has one single screen with the `svg` element created by `D3`. The playing area is in the center of the screen. There are instructions on the left, score board on the right, mute sound button, and links to my personal sites.   
+
+![Writeframe](others/Data-block.svg)
 
 ## Architecture and Technologies
 This project will be implemented with the following technologies:
