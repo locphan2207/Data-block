@@ -1,0 +1,9 @@
+body {
+  background: linear-gradient(lemonchiffon, lightyellow);
+  min-height: 703px;
+  min-width: 891px;
+}
+
+svg {
+  border: 1px solid black;
+}

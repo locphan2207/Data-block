@@ -1,13 +1,25 @@
-var webpack = require("webpack");
+var path = require("path");
 
 module.exports = {
-  context: __dirname,
-  entry: './js/game.js',
+  entry: "./js/game.js",
   output: {
-    filename: 'bundle.js'
+    path: path.resolve(__dirname),
+    filename: "bundle.js"
   },
+  module: {
+    loaders: [
+      {
+        test: [/\.jsx?$/],
+        exclude: /(node_modules)/,
+        loader: "babel-loader",
+        query: {
+          presets: ["es2015"]
+        }
+      }
+    ]
+  },
+  devtool: "source-map",
   resolve: {
-    extensions: ['.js', '*']
-  },
-  devtool: 'source-map'
+    extensions: [".js", ".jsx", "*"]
+  }
 };

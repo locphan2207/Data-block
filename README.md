@@ -1,7 +1,7 @@
 # Data Block
 
 ## Overview
-Data Block is a 2D game built with purely JavaScript and its data-driven library `D3.js`. In Data Block, players will use the mouse to control a shield to protect a character from being hit by _big blocks of data_ falling down from the sky.   
+Data Block is a 2D game built by purely JavaScript and its data-driven library `D3.js`. In Data Block, players will use the mouse to control a shield to protect a character from being hit by _big blocks of data_ falling down from the sky.   
 Each data block has a shape such as a circle, a bar. The size of a block is determined by the size of its corresponding data which is bounded to it.
 
 ## Functionality & MVP
