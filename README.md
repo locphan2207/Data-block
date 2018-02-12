@@ -17,13 +17,13 @@ In addition:
 ## Wireframe
 This game has one single screen with the `svg` element created by `D3`. The playing area is in the center of the screen. There are instructions on the left, score board on the right, mute sound button, and links to my personal sites.
 
-##Architecture and Technologies
+## Architecture and Technologies
 This project will be implemented with the following technologies:
 * Vanilla JavaScript for overall sctructure and game logic,
 * D3.js for creating falling objects and bounding data
 * Webpack to bundle many files into one
 
-##Timeline
+## Timeline
 **Weekend**:
 - [x] Thinking of ideas.
 - [x] Testing out different projects
