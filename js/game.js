@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let rScale = d3.scaleLinear()
     .domain([Math.min(...data), Math.max(...data)])
+    .domain([Math.min(...data), Math.max(...data)])
+
     .range([10, svg.attr("width")/(2 * data.length)]); // width / number of data, divide 2 again cus this is radius scale
                                                       // each data, has their own section
 
@@ -26,21 +28,34 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("cy", 100)
     .attr("r", d => (rScale(d)) )
     .attr("fill", "steelblue")
-    .attr("fill-opacity", 0.5);
+    .attr("fill-opacity", 0.5)
+    .attr("class", "data-circle");
 
   // circle.data()
   //   .attr("cx",
   // const prevY = circle.data().attr("cy");
+  const circles = document.getElementsByClassName("data-circle");
   const interval = setInterval(() => {
-    circle.attr("cy", (d,i) => {
-      const prevY = circle.data()[i-1].attr("cy");
-      return prevY + 20;
-    });
+    for (let i = 0; i < circles.length; i++) {
+      const cy = parseInt(circles[i].getAttribute("cy"));
+      const r = parseInt(circles[i].getAttribute("r"));
+      circles[i].setAttribute("cy", cy + 1);
 
-    if (circle.attr("cy") > svg.attr("height") + circle.attr("r")) {
-      clearInterval(interval);
+      if (isOutOfFrame(circles[i])) {
+        circles[i].remove();
+      }
     }
-  }, 500);
+  }, 10);
 });
 
+const isOutOfFrame = (htmlCircle) => {
+  const cx = parseInt(htmlCircle.getAttribute("cx"));
+  const cy = parseInt(htmlCircle.getAttribute("cy"));
+  const r = parseInt(htmlCircle.getAttribute("r"));
+  const leftBound = 0;
+  const rightBound = parseInt(d3.select("svg").attr("width"));
+  const bottomBound = parseInt(d3.select("svg").attr("height"));
+
+  return ((cx+r)<leftBound || (cx-r)>rightBound || (cy+r)>bottomBound);
+};
 // Position = Mass * Velocity
