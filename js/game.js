@@ -45,15 +45,16 @@ document.addEventListener("DOMContentLoaded", () => {
       .attr("vy", 0);
 
   //Physics constants:
-  const Fg = [0, 9.8]; // F gravity, positive 9.8 because origin on top
+
   //Find HTML elements:
   const circles = document.getElementsByClassName("data-circle");
   const shield = document.getElementById('shield');
   //Game Loop:
   const interval = setInterval(() => {
     for (let i = 0; i < circles.length; i++) {
+      const Fnet = getFnet(getFg(circles[i]));
       //update pos here:
-
+      updatePos(circles[i], Fnet);
       console.log(circles[i]);
       console.log(shield);
       if (MyMath.detectCollision(circles[i], shield)) {
@@ -78,6 +79,12 @@ function isOutOfFrame(htmlCircle) {
   return ((cx+r)<leftBound || (cx-r)>rightBound || (cy+r)>bottomBound);
 }
 
+function getFg(htmlCir) {
+  const a = [0, 9.8]; // gravity, positive 9.8 because origin on top
+  const m = parseInt(htmlCir.getAttribute("m"));
+  return MyMath.multiplyVector(a, m);
+}
+
 function getFnet(...Fnet) {
   let Ftotal = [0,0,0];
   for (let i = 0; i < Fnet.length; i++) {
@@ -91,7 +98,7 @@ function updatePos(htmlCir, Fnet) {
   const a = MyMath.divideVector(Fnet, m);  // a = F/m
   const adt = MyMath.multiplyVector(a, deltaT); // a*dt
 
-  const v = [parseInt(htmlCir.getAttribute("vx")),
+  let v = [parseInt(htmlCir.getAttribute("vx")),
     parseInt(htmlCir.getAttribute("vx"))]; // velocity
   v = MyMath.addVector(v, adt); // v = v0 + a*dt
 
