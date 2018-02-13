@@ -6,6 +6,7 @@ import * as MyMath from './math';
 // If you don't want to add event, then simple add the script at the end of the html file
 
 const data = [12, 34, 100, 200, 400];
+const gravityConst = 9.8; //  m/s^2
 
 document.addEventListener("DOMContentLoaded", () => {
   let svg = d3.select("svg")
@@ -26,4 +27,20 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("r", d => (rScale(d)) )
     .attr("fill", "steelblue")
     .attr("fill-opacity", 0.5);
+
+  // circle.data()
+  //   .attr("cx",
+  // const prevY = circle.data().attr("cy");
+  const interval = setInterval(() => {
+    circle.attr("cy", (d,i) => {
+      const prevY = circle.data()[i-1].attr("cy");
+      return prevY + 20;
+    });
+
+    if (circle.attr("cy") > svg.attr("height") + circle.attr("r")) {
+      clearInterval(interval);
+    }
+  }, 500);
 });
+
+// Position = Mass * Velocity
