@@ -1,5 +1,6 @@
-export const vecPos = (circle) => {
-  return [circle.attr("cx"), circle.attr("cy")];  //  (x, y)
+export const vecPos = (htmlCircle) => {
+  return [parseInt(htmlCircle.getAttribute("cx")),
+    parseInt(htmlCircle.getAttribute("cy"))];  //  (x, y)
 };
 
 export const subtractVector = (vector1, vector2) => {
@@ -12,15 +13,17 @@ export const vectorMagnitude = (vector) => {
   return Math.sqrt(x2 + y2); // sqrt(x^2 + y^2)
 };
 
-export const detectCollision = (circle1, circle2) => {
+export const detectCollision = (htmlCir1, htmlCir2) => {
   // If the |position vector2 - position vector1| < (|radius1| + |radius2|)
-  console.log(vecPos(circle1));
-  console.log(vecPos(circle2));
-  const positionSub = subtractVector(vecPos(circle1), vecPos(circle2));
+  console.log(vecPos(htmlCir1));
+  console.log(vecPos(htmlCir2));
+  const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
   console.log("subtract vector", positionSub);
   const positionMag = vectorMagnitude(positionSub);
   console.log(positionMag);
-  const radiusMag = Math.abs(circle1.attr("r")) +  Math.abs(circle2.attr("r"));
+  const r1 = parseInt(htmlCir1.getAttribute("r"));
+  const r2 = parseInt(htmlCir2.getAttribute("r"));
+  const radiusMag = Math.abs(r1) +  Math.abs(r2);
   console.log(radiusMag);
   return positionMag < radiusMag;
 };
