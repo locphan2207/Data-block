@@ -7,6 +7,18 @@ export const subtractVector = (vector1, vector2) => {
   return [vector1[0] - vector2[0], vector1[1] - vector2[1]];  // (x1-x2, y1-y2)
 };
 
+export const addVector = (vector1, vector2) => {
+  return [vector1[0] + vector2[0], vector1[1] + vector2[1]];  // (x1+x2, y1+y2)
+};
+
+export const multiplyVector = (vector1, scalar) => {
+  return [vector1[0] * scalar, vector1[1] * scalar];  // (x1*x2, y1*y2)
+};
+
+export const divideVector = (vector1, scalar) => {
+  return [vector1[0] / scalar, vector1[1] / scalar];  // (x1*x2, y1*y2)
+};
+
 export const vectorMagnitude = (vector) => {
   const x2 = Math.pow(vector[0], 2);
   const y2 = Math.pow(vector[1], 2);
