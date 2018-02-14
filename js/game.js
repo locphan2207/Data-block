@@ -6,8 +6,8 @@ import * as MyMath from './math';
 // If you don't want to add event, then simple add the script at the end of the html file
 const deltaT = 1;
 
-let data = [12, 34, 100, 200, 400];
-let queue = [];
+let data = [12, 34, 100, 200, 400, 31, 31 ,24, 32, 33, 100, 300];
+let queue = [12];
 
 document.addEventListener("DOMContentLoaded", () => {
   let svg = d3.select("svg")
@@ -16,11 +16,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let rScale = d3.scaleLinear() // radius scale
     .domain([12, 400])
-    .range([10, 100]); // width / number of data, divide 2 again cus this is radius scale
+    .range([50, 100]); // width / number of data, divide 2 again cus this is radius scale
 
   let mScale = d3.scaleLinear() // mass scale
     .domain([12, 400])
-    .range([1, 20]);
+    .range([1, 10]);
 
   //Create shield:
   svg.append("circle")
@@ -35,7 +35,7 @@ document.addEventListener("DOMContentLoaded", () => {
     .data(data);
   circle.enter().append("circle")
     .attr("cx", parseInt(svg.attr("width"))/2 - 10)
-    .attr("cy", (d) => rScale(d))
+    .attr("cy", (d, i) => -i * 500)
     .attr("r", d => (rScale(d)) )
     .attr("fill", "steelblue")
     .attr("fill-opacity", 0.5)
@@ -43,14 +43,18 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("m", (d) => mScale(d) )
     .attr("vx", 0) //initialize initial velocity:
     .attr("vy", 0);
-  circle.exit().remove();
   //Physics constants:
 
   //Find HTML elements:
-  const circles = document.getElementsByClassName("data-circle");
   const shield = document.getElementById('shield');
+  let idx = 0;
   //Game Loop:
   const interval = setInterval(() => {
+    // if (queue.length < 1) queue.push(data[idx++]);
+
+    circle.exit().remove();
+    const circles = document.getElementsByClassName("data-circle");
+
     for (let i = 0; i < circles.length; i++) {
       let Fnet;
       let hasCollision = false;
@@ -60,20 +64,7 @@ document.addEventListener("DOMContentLoaded", () => {
           MyMath.getFs(circles[i], shield)
         );
         hasCollision = true;
-      } else {
-        for (let j = i + 1; j < circles.length; j++) {
-          if (MyMath.detectCollision(circles[i], circles[j])) {
-            Fnet = MyMath.getFnet(
-              MyMath.getFs(circles[i], circles[j]),
-              MyMath.getFg(circles[i])
-            );
-            // MyMath.updatePos(circle[j], Fnet, deltaT);
-            hasCollision = true;
-            break;
-          }
-        }
-      }
-      if (!hasCollision) Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
+      } else Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
       MyMath.updatePos(circles[i], Fnet, deltaT);
 
       if (isOutOfFrame(circles[i])) {
