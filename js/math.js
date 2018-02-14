@@ -49,17 +49,16 @@ export function getFg(htmlCir) {
 
 // Spring force: (in this we calcuate Fs from circle 2 applies on circle 1)
 export function getFs(htmlCir1, htmlCir2) {
-  const k = 10; // Spring constant
+  const k = 100; // Spring constant
   const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
   const positionMag = vecMag(positionSub);
   const r1 = parseInt(htmlCir1.getAttribute("r"));
   const r2 = parseInt(htmlCir2.getAttribute("r"));
   const radiusMag = Math.abs(r1) +  Math.abs(r2);
   const diff = radiusMag - positionMag; // find the x
-  const norm = vecUnit(positionSub);
-  const scalar = k * diff;
-  const Fs =  multiplyVector(norm, scalar); // -x*norm(x)
-  // debugger
+  const norm = vecUnit(positionSub);  // vector unit
+  const scalar = k * diff;  // k * x
+  const Fs =  multiplyVector(norm, scalar); // Fs = k * x * normVector
   return Fs;
 }
 
@@ -78,11 +77,16 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   const adt = multiplyVector(a, deltaT); // a*dt
 
   let v = [parseInt(htmlCir.getAttribute("vx")),
-    parseInt(htmlCir.getAttribute("vx"))]; // velocity
+    parseInt(htmlCir.getAttribute("vy"))]; // velocity
   v = addVector(v, adt); // v = v0 + a*dt
-
-  const cx = parseInt(htmlCir.getAttribute("cx"));
-  const cy = parseInt(htmlCir.getAttribute("cy"));
-  htmlCir.setAttribute("cx", cx + v[0]*deltaT + 0.5*a[0]*Math.pow(deltaT,2)); //x = x0 + v*dt + a*dt^2
-  htmlCir.setAttribute("cy", cy + v[1]*deltaT + 0.5*a[1]*Math.pow(deltaT,2));
+  htmlCir.setAttribute('vx', v[0]);
+  htmlCir.setAttribute('vy', v[1]);
+  console.log(v);
+  let cx = parseInt(htmlCir.getAttribute("cx"));
+  let cy = parseInt(htmlCir.getAttribute("cy"));
+  cx = cx + (v[0] * deltaT) / 100;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
+  cy = cy + (v[1] * deltaT) / 100;
+  // debugger
+  htmlCir.setAttribute("cx", cx ); //x = x0 + v*dt
+  htmlCir.setAttribute("cy", cy );
 }

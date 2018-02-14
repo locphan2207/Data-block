@@ -4,7 +4,7 @@ import * as MyMath from './math';
 // Note: Becuase I add this script on top of the html file, so I need to make
 // an event listener to wait for all content loaded before running the code.
 // If you don't want to add event, then simple add the script at the end of the html file
-const deltaT = 0.5;
+const deltaT = 1;
 
 let data = [12, 34, 100, 200, 400];
 const queue = [];
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mScale = d3.scaleLinear() // mass scale
     .domain([12, 400])
-    .range([1, 10]);
+    .range([1, 20]);
 
   //Create shield:
   svg.append("circle")
@@ -55,13 +55,16 @@ document.addEventListener("DOMContentLoaded", () => {
       //update pos here:
       let Fnet;
       if (MyMath.detectCollision(circles[i], shield)) {
-        Fnet = MyMath.getFnet(MyMath.getFg(circles[i]), MyMath.getFs(circles[i], shield));
+        Fnet = MyMath.getFnet(
+          MyMath.getFg(circles[i]),
+          MyMath.getFs(circles[i], shield)
+        );
+        // debugger
         // clearInterval(interval);
       } else {
         Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
       }
       MyMath.updatePos(circles[i], Fnet, deltaT);
-      console.log(circles[i]);
 
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
