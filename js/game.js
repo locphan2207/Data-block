@@ -4,7 +4,7 @@ import * as MyMath from './math';
 // Note: Becuase I add this script on top of the html file, so I need to make
 // an event listener to wait for all content loaded before running the code.
 // If you don't want to add event, then simple add the script at the end of the html file
-const deltaT = 1;
+const deltaT = 0.5;
 
 let data = [12, 34, 100, 200, 400];
 const queue = [];
@@ -52,14 +52,16 @@ document.addEventListener("DOMContentLoaded", () => {
   //Game Loop:
   const interval = setInterval(() => {
     for (let i = 0; i < circles.length; i++) {
-      const Fnet = getFnet(getFg(circles[i]));
       //update pos here:
-      updatePos(circles[i], Fnet);
-      console.log(circles[i]);
-      console.log(shield);
+      let Fnet;
       if (MyMath.detectCollision(circles[i], shield)) {
-        clearInterval(interval);
+        Fnet = MyMath.getFnet(MyMath.getFg(circles[i]), MyMath.getFs(circles[i], shield));
+        // clearInterval(interval);
+      } else {
+        Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
       }
+      MyMath.updatePos(circles[i], Fnet, deltaT);
+      console.log(circles[i]);
 
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
@@ -78,38 +80,6 @@ function isOutOfFrame(htmlCircle) {
 
   return ((cx+r)<leftBound || (cx-r)>rightBound || (cy+r)>bottomBound);
 }
-
-function getFg(htmlCir) {
-  const a = [0, 9.8]; // gravity, positive 9.8 because origin on top
-  const m = parseInt(htmlCir.getAttribute("m"));
-  return MyMath.multiplyVector(a, m);
-}
-
-function getFnet(...Fnet) {
-  let Ftotal = [0,0,0];
-  for (let i = 0; i < Fnet.length; i++) {
-    Ftotal = MyMath.addVector(Ftotal, Fnet[i]); // Ftotal += Fnet[i]
-  }
-  return Ftotal;
-}
-
-function updatePos(htmlCir, Fnet) {
-  const m = parseInt(htmlCir.getAttribute("m"));
-  const a = MyMath.divideVector(Fnet, m);  // a = F/m
-  const adt = MyMath.multiplyVector(a, deltaT); // a*dt
-
-  let v = [parseInt(htmlCir.getAttribute("vx")),
-    parseInt(htmlCir.getAttribute("vx"))]; // velocity
-  v = MyMath.addVector(v, adt); // v = v0 + a*dt
-
-  const cx = parseInt(htmlCir.getAttribute("cx"));
-  const cy = parseInt(htmlCir.getAttribute("cy"));
-  htmlCir.setAttribute("cx", cx + v[0]*deltaT + 0.5*a[0]*Math.pow(deltaT,2)); //x = x0 + v*dt + a*dt^2
-  htmlCir.setAttribute("cy", cy + v[1]*deltaT + 0.5*a[1]*Math.pow(deltaT,2));
-}
-
-
-
 // Momemtum = Mass * Velocity
 // p = F * dt
 // v = p/m = a * dt
