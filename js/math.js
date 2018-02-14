@@ -49,7 +49,7 @@ export function getFg(htmlCir) {
 
 // Spring force: (in this we calcuate Fs from circle 2 applies on circle 1)
 export function getFs(htmlCir1, htmlCir2) {
-  const k = 100; // Spring constant
+  const k = 50; // Spring constant 50 seems nice
   const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
   const positionMag = vecMag(positionSub);
   const r1 = parseInt(htmlCir1.getAttribute("r"));
