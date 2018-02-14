@@ -49,7 +49,7 @@ export function getFg(htmlCir) {
 
 // Spring force: (in this we calcuate Fs from circle 2 applies on circle 1)
 export function getFs(htmlCir1, htmlCir2) {
-  const k = 500; // Spring constant 1000 seems nice
+  const k = 100; // Spring constant 1000 seems nice
   const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
   const positionMag = vecMag(positionSub);
   const r1 = parseInt(htmlCir1.getAttribute("r"));
@@ -84,8 +84,8 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   console.log(v);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-  cx = cx + (v[0] * deltaT) / 800;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
-  cy = cy + (v[1] * deltaT) / 800;
+  cx = cx + (v[0] * deltaT) / 300;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
+  cy = cy + (v[1] * deltaT) / 300;
   // debugger
   htmlCir.setAttribute("cx",  cx + (v[0] * deltaT) / 500 ); //x = x0 + v*dt
   htmlCir.setAttribute("cy", cy + (v[1] * deltaT) / 500 );
