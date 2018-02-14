@@ -7,7 +7,7 @@ import * as MyMath from './math';
 const deltaT = 1;
 
 let data = [12, 34, 100, 200, 400, 31, 31 ,24, 32, 33, 100, 300];
-let queue = [12];
+let queue = [];
 
 document.addEventListener("DOMContentLoaded", () => {
   let svg = d3.select("svg")
@@ -20,7 +20,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let mScale = d3.scaleLinear() // mass scale
     .domain([12, 400])
-    .range([1, 10]);
+    .range([1, 3]);
 
   //Create shield:
   svg.append("circle")
@@ -35,24 +35,32 @@ document.addEventListener("DOMContentLoaded", () => {
     .data(data);
   circle.enter().append("circle")
     .attr("cx", parseInt(svg.attr("width"))/2 - 10)
-    .attr("cy", (d, i) => -i * 500)
+    .attr("cy", (d, i) => -i * 1000)
     .attr("r", d => (rScale(d)) )
     .attr("fill", "steelblue")
     .attr("fill-opacity", 0.5)
     .attr("class", "data-circle")
     .attr("m", (d) => mScale(d) )
-    .attr("vx", 0) //initialize initial velocity:
+    .attr("vx", 0) // initialize initial velocity:
     .attr("vy", 0);
+  circle.exit().remove();
   //Physics constants:
 
   //Find HTML elements:
   const shield = document.getElementById('shield');
-  let idx = 0;
+
+  document.addEventListener("mousemove", (e) => {
+    console.log(e.pageX);
+    console.log(e.pageY);
+    shield.setAttribute("cx", e.pageX);
+  });
+
   //Game Loop:
+  let idx = 0;
   const interval = setInterval(() => {
     // if (queue.length < 1) queue.push(data[idx++]);
 
-    circle.exit().remove();
+
     const circles = document.getElementsByClassName("data-circle");
 
     for (let i = 0; i < circles.length; i++) {
@@ -83,9 +91,13 @@ function isOutOfFrame(htmlCircle) {
   const rightBound = parseInt(d3.select("svg").attr("width"));
   const bottomBound = parseInt(d3.select("svg").attr("height"));
 
-  return ((cx+r)<leftBound || (cx-r)>rightBound || (cy+r)>bottomBound);
+  return ((cx+r)<=leftBound || (cx-r)>=rightBound || (cy+r)>bottomBound);
 }
-// Momemtum = Mass * Velocity
-// p = F * dt
-// v = p/m = a * dt
-// pos =
+
+function moveShield(e) {
+  const shield = document.getElementById('shield');
+  console.log(e.pageX);
+  console.log(e.pageY);
+  shield.setAttribute("cx", e.pageX);
+  shield.setAttribute("cy", e.pageY);
+}
