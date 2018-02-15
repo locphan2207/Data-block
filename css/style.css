@@ -2,11 +2,12 @@ body {
   background: lightyellow;
   font-family: 'Inconsolata', monospace;
   font-size: 20px;
+  color: #5B6C5D;
 }
 
 svg {
   position: fixed;
-  top: 0;
+  top: 10px;
   left: 500px;
   border: 2px solid black;
 }
@@ -34,6 +35,7 @@ svg {
 
 #welcome {
   font-size: 150%;
+  color: #465775
 }
 
 #span1 {
