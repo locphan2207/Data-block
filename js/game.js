@@ -54,11 +54,12 @@ document.addEventListener("DOMContentLoaded", () => {
     // Loading data to queue
     if (queue.length < 4) { // increase queue length by changing this number
       queue.push(data[idx++]);
-      const circleD3 = svg.selectAll(".data-circle");
-      circleD3
+      const group = svg.selectAll("g");
+      const groupEnter = group
         .data(queue)
-        .enter().append("circle")
-          // .filter(d => { return (d.population !== ".."); })
+        .enter().append("g");
+      groupEnter
+        .append("circle")
           .attr("cx", (d) => gameWidth/3 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
           .attr("cy", (d,i) => -400)
           .attr("r", d => {console.log(d.population); return rScale(d.population); } )
@@ -70,29 +71,36 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("vy", 0)
           .attr("population", (d) => d.population)
           .attr("country", (d) => d.Country);
-      circleD3.data(queue).exit().remove();
+      groupEnter
+        .append("text")
+        .attr("fill", "red")
+        .attr("font-family", "sans-serif")
+        .attr("font-size", "20px")
+        .text((d) => d.population);
+
+      group.data(queue).exit().remove();
     }
 
     const circles = document.getElementsByClassName("data-circle");
     for (let i = 0; i < circles.length; i++) {
       // Text:
-      if (!document.getElementById(`text${i}`)) {
-        const newText = svg.append("text")
-          .text(`${circles[i].getAttribute("population")}`)
-          .attr("id", `text${i}`)
-          .attr("x", circles[i].getAttribute("cx"))
-          .attr("y", circles[i].getAttribute("cy"));
-          // .attr("fill", "red")
-          // .attr("font-family", "sans-serif")
-          // .attr("font-size", "20px");
-
-        console.log(newText);
-      } else {
-        console.log("update div");
-        d3.select(`#text${i}`)
-          .attr("x", circles[i].getAttribute("cx"))
-          .attr("y", circles[i].getAttribute("cy"));
-      }
+      // if (!document.getElementById(`text${i}`)) {
+      //   const newText = svg.append("text")
+      //     .text(`${circles[i].getAttribute("population")}`)
+      //     .attr("id", `text${i}`)
+      //     .attr("x", circles[i].getAttribute("cx"))
+      //     .attr("y", circles[i].getAttribute("cy"));
+      //     // .attr("fill", "red")
+      //     // .attr("font-family", "sans-serif")
+      //     // .attr("font-size", "20px");
+      //
+      //   console.log(newText);
+      // } else {
+      //   console.log("update div");
+      //   d3.select(`#text${i}`)
+      //     .attr("x", circles[i].getAttribute("cx"))
+      //     .attr("y", circles[i].getAttribute("cy"));
+      // }
 
       // Physics:
       let Fnet;
@@ -107,8 +115,8 @@ document.addEventListener("DOMContentLoaded", () => {
       MyMath.updatePos(circles[i], Fnet, deltaT);
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
-        document.getElementById(`text${i}`).remove();
-        queue.splice(idxToRemove(idx-1), 1);
+        // document.getElementById(`text${i}`).remove();
+        // queue.splice(idxToRemove(idx-1), 1);
         // queue = queue.slice(1);
       }
     }

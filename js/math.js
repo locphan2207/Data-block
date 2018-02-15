@@ -1,3 +1,5 @@
+import * as d3 from 'd3';
+
 export const vecPos = (htmlCircle) => {
   return [parseInt(htmlCircle.getAttribute("cx")),
     parseInt(htmlCircle.getAttribute("cy"))];  //  (x, y)
@@ -82,8 +84,14 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   htmlCir.setAttribute('vy', v[1]);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-
+  cx = cx + (v[0] * deltaT) / 400;
+  cy = cy + (v[1] * deltaT) / 400;
   // debugger
-  htmlCir.setAttribute("cx",  cx + (v[0] * deltaT) / 400 ); //x = x0 + v*dt
-  htmlCir.setAttribute("cy", cy + (v[1] * deltaT) / 400 );
+  htmlCir.setAttribute("cx", cx ); //x = x0 + v*dt
+  htmlCir.setAttribute("cy", cy );
+
+  d3.select(htmlCir.parentNode).select("text")
+    .attr("x", cx)
+    .attr("y", cy);
+
 }
