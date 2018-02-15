@@ -81,10 +81,12 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("fill", "darkred")
           .attr("font-family", "sans-serif")
           .attr("font-size", "15px")
+          .attr("text-anchor", "middle")
           .text((d) => d.country);
       groupEnter
         .append("text")
           .attr("fill", "black")
+          .attr("text-anchor", "middle")
           .attr("font-family", "sans-serif")
           .attr("dy", 20) //shift 10px down
           .text((d) => d.population);
