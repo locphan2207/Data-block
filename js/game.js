@@ -4,14 +4,14 @@ import * as MyMath from './math';
 import {getPopulation} from './population_api';
 
 const deltaT = 1;
-
+let score = 0;
 let data = [];
 let queue = [];
 let rScale = d3.scaleLinear() // radius scale
-.range([40, 500]); // width / number of data, divide 2 again cus this is radius scale
+  .range([40, 500]); // width / number of data, divide 2 again cus this is radius scale
 
 let mScale = d3.scaleLinear() // mass scale
-.range([5, 50]);
+  .range([5, 50]);
 
 // Note: Becuase I add this script on top of the html file, so I need to make
 // an event listener to wait for all content loaded before running the code.
@@ -151,9 +151,7 @@ function characterCollision(frameId, idx) {
   const character = document.getElementById("character");
   for (let i = 0; i < circles.length; i++) {
     if (MyMath.detectCollision(circles[i], character)) {
-      console.log('YOU LOSE');
       window.cancelAnimationFrame(frameId);
-      // debugger;
       showLoseWindow();
     }
   }
@@ -178,7 +176,11 @@ function shieldCollision(idx) {
         MyMath.getFg(circles[i]),
         MyMath.getFs(circles[i], shield)
       );
+      
       hasCollision = true;
+      score += 500 - parseInt(circles[i].getAttribute("r"));
+      updateScore();
+
     } else Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
     MyMath.updatePos(circles[i], Fnet, deltaT);
     if (isOutOfFrame(circles[i])) {
@@ -188,59 +190,10 @@ function shieldCollision(idx) {
   }
 }
 
-// function createUpdateCircles(idx, gameWidth, gameHeight) {
-//   // The condition is to make sure queue only loads meaningful data.
-//   // It also helps dodging when d3.csv has not finished loading data
-//   if (queue.length < 5) { // increase queue length by changing this number
-//     if (!data[idx]) return idx+1;
-//     else queue.push(data[idx]);
-//   } else {
-//     const group = d3.select("svg").selectAll(".group");
-//     const groupEnter = group
-//       .data(queue)
-//       .enter().append("g").attr("class", "group");
-//     groupEnter
-//       .append("circle")
-//         .attr("cx", (d) => gameWidth/6 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
-//         .attr("cy", (d,i) => i*-400)
-//         .attr("r", d => rScale(d.population))
-//         .attr("fill", (d) => {
-//           if (d.name[0] === "F") {
-//             return "lightcoral";
-//           } else {
-//             return "lightblue";
-//           }
-//         })
-//         .attr("fill-opacity", 0.7)
-//         .attr("class", "data-circle")
-//         .attr("m", (d) => mScale(d.population) )
-//         .attr("vx", 0) // initialize initial velocity:
-//         .attr("vy", 0);
-//     groupEnter
-//       .append("text")
-//         .attr("fill", (d) => {
-//           if (d.name[0] === "F") {
-//             return "navy";
-//           } else {
-//             return "darkred";
-//           }
-//         })
-//         .attr("font-family", "sans-serif")
-//         .attr("font-size", "15px")
-//         .attr("text-anchor", "middle")
-//         .text((d) => d.country);
-//     groupEnter
-//       .append("text")
-//         .attr("fill", "black")
-//         .attr("text-anchor", "middle")
-//         .attr("font-family", "sans-serif")
-//         .attr("dy", 20) //shift 10px down
-//         .text((d) => d.population);
-//
-//     group.data(queue).exit().remove();
-//     return idx+1; // to update idx in game loop
-//   }
-// }
+function updateScore() {
+  const $scoreElement = $('#score');
+  $scoreElement.text(score);
+}
 
 function isOutOfFrame(htmlCircle) {
   const cx = parseInt(htmlCircle.getAttribute("cx"));
