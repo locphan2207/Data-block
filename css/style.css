@@ -1,17 +1,46 @@
 body {
-  background: linear-gradient(lemonchiffon, lightyellow);
-  min-height: 703px;
-  min-width: 891px;
-  margin-left: 400px;
+  background: lightyellow;
+  font-family: 'Inconsolata', monospace;
+  font-size: 20px;
 }
 
 svg {
   position: fixed;
   top: 0;
-  left: 5%;
+  left: 500px;
   border: 2px solid black;
 }
 
-.game-name {
-  color: red;
+#game-name {
+  color: #59C9A5;
+  font-size: 50px;
+}
+
+#pause {
+  color: #465775;
+}
+
+#instruction {
+  max-width: 400px;
+  line-height: 1.8;
+  border: 1px solid #5B6C5D;
+  padding: 15px;
+  border-radius: 14px;
+}
+
+#instruction>p:first-child {
+  font-style: italic;
+}
+
+#welcome {
+  font-size: 150%;
+}
+
+#span1 {
+  color: #59C9A5;
+}
+
+#span2 {
+  color: #EF6F6C;
+  font-family: 'Pacifico', cursive;
 }

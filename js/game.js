@@ -13,7 +13,7 @@ let queue = [];
 // If you don't want to add event, then simple add the script at the end of the html file
 document.addEventListener("DOMContentLoaded", () => {
   d3.csv("./data/change.csv", (d) => {
-    data = d3.shuffle(d.filter(row => row.population != "..")); //filter the empty popoulation row, and shuffle
+    data = d3.shuffle(d.filter(row => row.population !== "..")); //filter the empty popoulation row, and shuffle
   });
   // console.log(data);
 
