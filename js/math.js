@@ -84,8 +84,8 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   htmlCir.setAttribute('vy', v[1]);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-  cx = cx + (v[0] * deltaT) / 400;
-  cy = cy + (v[1] * deltaT) / 400;
+  cx = cx + (v[0] * deltaT) / 600;
+  cy = cy + (v[1] * deltaT) / 600;
   // debugger
   htmlCir.setAttribute("cx", cx ); //x = x0 + v*dt
   htmlCir.setAttribute("cy", cy );

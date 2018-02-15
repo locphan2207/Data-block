@@ -5,7 +5,6 @@ import {getPopulation} from './population_api';
 
 const deltaT = 1;
 
-
 let data = [];
 let queue = [];
 
@@ -16,6 +15,8 @@ document.addEventListener("DOMContentLoaded", () => {
   d3.csv("./data/change.csv", (d) => {
     data = d3.shuffle(d.filter(row => row.population != "..")); //filter the empty popoulation row, and shuffle
   });
+  // console.log(data);
+
   let svg = d3.select("svg")
     .attr("width",  800)
     .attr("height", window.innerHeight);
@@ -42,42 +43,28 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("transform", "translate(-25, -25)")
     .attr("xlink:href", "./images/shield.svg.png");
 
-
+  // Mouse event:
   const shield = document.getElementById('shield');
   document.addEventListener("mousemove", (e) => {
     shield.setAttribute("x", e.pageX - (window.innerWidth * 0.25)); // shift because shield position depends on svg position
     shield.setAttribute("cx", e.pageX - (window.innerWidth * 0.25));
   });
 
-  // document.addEventListener("keydown", (e) => {
-  //   if (e.key === "ArrowLeft") {
-  //     let x = parseInt(shield.attr("x"));
-  //     x -= 2;
-  //     shield
-  //       .transition()
-  //       .attr("x", x )
-  //       .attr("cx", x );
-  //   } else if (e.key === "ArrowRight") {
-  //     let x = parseInt(shield.attr("x"));
-  //     x += 2;
-  //     shield
-  //       .transition()
-  //       .attr("x", x )
-  //       .attr("cx", x );
-  //   }
-  // });
-
   //Game Loop:
-  let idx = 0;
-  const runFrame = () => {
+  let idx = 1;
+  let frameId;
+  function runFrame(error) {
     // update domain: (doesnt work if put these lines above)
     rScale.domain([2851, 275067797]);
     mScale.domain([2851, 275067797]);
 
     // Loading data to queue
+    // The condition is to make sure queue only loads meaningful data.
+    // It also helps dodging when d3.csv has not finished loading data
     if (queue.length < 5) { // increase queue length by changing this number
-      queue.push(data[idx++]);
-      console.log(queue);
+      if (!data[idx++]) idx++;
+      else queue.push(data[idx++]);
+    } else {
       const group = svg.selectAll(".group");
       const groupEnter = group
         .data(queue)
@@ -143,9 +130,21 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
 
-    window.requestAnimationFrame(runFrame); // a better version of setInterval, call functino again inside function
-  };
-  window.requestAnimationFrame(runFrame); // stop frame, use cancelAnimationFrame(frameId);
+    frameId = window.requestAnimationFrame(runFrame); // a better version of setInterval, call functino again inside function
+  }
+  frameId = window.requestAnimationFrame(runFrame); // start frame, use cancelAnimationFrame(frameId);
+
+  // Mouse click:
+  let isPaused = false;
+  document.addEventListener("onclick", (e) => {
+    if (!isPaused) {
+      isPaused = true;
+      window.cancelAnimationFrame(frameId);
+    } else {
+      isPaused = false;
+      frameId = window.requestAnimationFrame(runFrame);
+    }
+  });
 });
 
 function isOutOfFrame(htmlCircle) {
