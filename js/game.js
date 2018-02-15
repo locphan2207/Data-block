@@ -54,8 +54,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Loading data to queue
     if (queue.length < 4) { // increase queue length by changing this number
       queue.push(data[idx++]);
-      const circle = svg.selectAll(".data-circle");
-      circle
+      const circleD3 = svg.selectAll(".data-circle");
+      circleD3
         .data(queue)
         .enter().append("circle")
           // .filter(d => { return (d.population !== ".."); })
@@ -67,14 +67,34 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("class", "data-circle")
           .attr("m", (d) => mScale(d.population) )
           .attr("vx", 0) // initialize initial velocity:
-          .attr("vy", 0);
-      circle.data(queue).exit().remove();
+          .attr("vy", 0)
+          .attr("population", (d) => d.population)
+          .attr("country", (d) => d.Country);
+      circleD3.data(queue).exit().remove();
     }
 
-
     const circles = document.getElementsByClassName("data-circle");
-
     for (let i = 0; i < circles.length; i++) {
+      // Text:
+      if (!document.getElementById(`text${i}`)) {
+        const newText = svg.append("text")
+          .text(`${circles[i].getAttribute("population")}`)
+          .attr("id", `text${i}`)
+          .attr("x", circles[i].getAttribute("cx"))
+          .attr("y", circles[i].getAttribute("cy"));
+          // .attr("fill", "red")
+          // .attr("font-family", "sans-serif")
+          // .attr("font-size", "20px");
+
+        console.log(newText);
+      } else {
+        console.log("update div");
+        d3.select(`#text${i}`)
+          .attr("x", circles[i].getAttribute("cx"))
+          .attr("y", circles[i].getAttribute("cy"));
+      }
+
+      // Physics:
       let Fnet;
       let hasCollision = false;
       if (MyMath.detectCollision(circles[i], shield)) {
@@ -87,6 +107,7 @@ document.addEventListener("DOMContentLoaded", () => {
       MyMath.updatePos(circles[i], Fnet, deltaT);
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
+        document.getElementById(`text${i}`).remove();
         queue.splice(idxToRemove(idx-1), 1);
         // queue = queue.slice(1);
       }
