@@ -82,9 +82,8 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   htmlCir.setAttribute('vy', v[1]);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-  cx = cx + (v[0] * deltaT) / 5000;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
-  cy = cy + (v[1] * deltaT) / 5000;
+
   // debugger
-  htmlCir.setAttribute("cx",  cx + (v[0] * deltaT) / 500 ); //x = x0 + v*dt
-  htmlCir.setAttribute("cy", cy + (v[1] * deltaT) / 500 );
+  htmlCir.setAttribute("cx",  cx + (v[0] * deltaT) / 400 ); //x = x0 + v*dt
+  htmlCir.setAttribute("cy", cy + (v[1] * deltaT) / 400 );
 }
