@@ -154,8 +154,16 @@ function characterCollision(frameId, idx) {
       console.log('YOU LOSE');
       window.cancelAnimationFrame(frameId);
       // debugger;
+      showLoseWindow();
     }
   }
+}
+
+function showLoseWindow() {
+  const loseWindow = document.getElementsByClassName('lose-window-container')[0];
+  let className = loseWindow.getAttribute("class");
+  className += " display-modal";
+  loseWindow.setAttribute("class", className);
 }
 
 function shieldCollision(idx) {
