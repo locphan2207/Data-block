@@ -42,13 +42,30 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr("transform", "translate(-25, -25)")
     .attr("xlink:href", "./images/shield.svg.png");
 
-  //Find HTML elements:
-  const shield = document.getElementById('shield');
 
+  const shield = document.getElementById('shield');
   document.addEventListener("mousemove", (e) => {
-    shield.setAttribute("x", e.pageX );
-    shield.setAttribute("cx", e.pageX );
+    shield.setAttribute("x", e.pageX - (window.innerWidth * 0.25)); // shift because shield position depends on svg position
+    shield.setAttribute("cx", e.pageX - (window.innerWidth * 0.25));
   });
+
+  // document.addEventListener("keydown", (e) => {
+  //   if (e.key === "ArrowLeft") {
+  //     let x = parseInt(shield.attr("x"));
+  //     x -= 2;
+  //     shield
+  //       .transition()
+  //       .attr("x", x )
+  //       .attr("cx", x );
+  //   } else if (e.key === "ArrowRight") {
+  //     let x = parseInt(shield.attr("x"));
+  //     x += 2;
+  //     shield
+  //       .transition()
+  //       .attr("x", x )
+  //       .attr("cx", x );
+  //   }
+  // });
 
   //Game Loop:
   let idx = 0;

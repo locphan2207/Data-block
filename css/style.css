@@ -2,9 +2,16 @@ body {
   background: linear-gradient(lemonchiffon, lightyellow);
   min-height: 703px;
   min-width: 891px;
+  margin-left: 400px;
 }
 
 svg {
-  margin-left: 400px;
+  position: fixed;
+  top: 0;
+  left: 25%;
   border: 2px solid black;
+}
+
+h1 {
+
 }
