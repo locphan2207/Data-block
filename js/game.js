@@ -29,14 +29,6 @@ document.addEventListener("DOMContentLoaded", () => {
   let mScale = d3.scaleLinear() // mass scale
     .range([5, 50]);
 
-  //Create shield:
-  // svg.append("circle");
-  //   .attr("cx", gameWidth/2)
-  //   .attr("cy", parseInt(svg.attr("height")) - 300)
-  //   .attr("r", 25)
-  //   // .attr("id", "shield")
-  //   .attr("fill", "red");
-
   const shieldR = 25;
   svg.append("svg:image")
     .attr('x', gameWidth/2)
@@ -47,14 +39,15 @@ document.addEventListener("DOMContentLoaded", () => {
     .attr('cx', gameWidth/2)
     .attr('cy', gameHeight - 300)
     .attr("id", "shield")
+    .attr("transform", "translate(-25, -25)")
     .attr("xlink:href", "./images/shield.svg.png");
 
   //Find HTML elements:
   const shield = document.getElementById('shield');
 
   document.addEventListener("mousemove", (e) => {
-    shield.setAttribute("x", e.pageX);
-    shield.setAttribute("cx", e.pageX);
+    shield.setAttribute("x", e.pageX );
+    shield.setAttribute("cx", e.pageX );
   });
 
   //Game Loop:
