@@ -79,14 +79,15 @@ svg {
 
 #instruction {
   max-width: 400px;
-  line-height: 1.8;
+  line-height: 1.5;
   border: 1px solid #5B6C5D;
   padding: 15px;
   border-radius: 14px;
 }
 
 #instruction>p:first-child {
-  font-style: italic;
+  /* font-family: 'Wire One', sans-serif; */
+  letter-spacing: 1px;
 }
 
 #welcome {
