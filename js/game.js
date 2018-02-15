@@ -49,6 +49,19 @@ document.addEventListener("DOMContentLoaded", () => {
     shield.setAttribute("x", e.pageX - (window.innerWidth * 0.25)); // shift because shield position depends on svg position
     shield.setAttribute("cx", e.pageX - (window.innerWidth * 0.25));
   });
+  // Mouse click:
+  let isPaused = false;
+  document.addEventListener("click", (e) => {
+    if (!isPaused) {
+      isPaused = true;
+      console.log(isPaused);
+      window.cancelAnimationFrame(frameId);
+    } else {
+      isPaused = false;
+      console.log(isPaused);
+      frameId = window.requestAnimationFrame(runFrame);
+    }
+  });
 
   //Game Loop:
   let idx = 1;
@@ -129,22 +142,11 @@ document.addEventListener("DOMContentLoaded", () => {
         // queue = queue.slice(1);
       }
     }
-
     frameId = window.requestAnimationFrame(runFrame); // a better version of setInterval, call functino again inside function
   }
   frameId = window.requestAnimationFrame(runFrame); // start frame, use cancelAnimationFrame(frameId);
 
-  // Mouse click:
-  let isPaused = false;
-  document.addEventListener("onclick", (e) => {
-    if (!isPaused) {
-      isPaused = true;
-      window.cancelAnimationFrame(frameId);
-    } else {
-      isPaused = false;
-      frameId = window.requestAnimationFrame(runFrame);
-    }
-  });
+
 });
 
 function isOutOfFrame(htmlCircle) {
