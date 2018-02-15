@@ -14,7 +14,7 @@ let queue = [];
 // If you don't want to add event, then simple add the script at the end of the html file
 document.addEventListener("DOMContentLoaded", () => {
   d3.csv("./data/change.csv", (d) => {
-    data = d.filter(row => row.population != ".."); //filter the empty popoulation row
+    data = d3.shuffle(d.filter(row => row.population != "..")); //filter the empty popoulation row, and shuffle
   });
   let svg = d3.select("svg")
     .attr("width",  800)
@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
     mScale.domain([2851, 275067797]);
 
     // Loading data to queue
-    if (queue.length < 3) { // increase queue length by changing this number
+    if (queue.length < 5) { // increase queue length by changing this number
       queue.push(data[idx++]);
       console.log(queue);
       const group = svg.selectAll(".group");
@@ -68,17 +68,29 @@ document.addEventListener("DOMContentLoaded", () => {
       groupEnter
         .append("circle")
           .attr("cx", (d) => gameWidth/6 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
-          .attr("cy", (d,i) => -400)
+          .attr("cy", (d,i) => i*-400)
           .attr("r", d => rScale(d.population))
-          .attr("fill", "steelblue")
-          .attr("fill-opacity", 0.5)
+          .attr("fill", (d) => {
+            if (d.name[0] === "F") {
+              return "lightcoral";
+            } else {
+              return "lightblue";
+            }
+          })
+          .attr("fill-opacity", 0.7)
           .attr("class", "data-circle")
           .attr("m", (d) => mScale(d.population) )
           .attr("vx", 0) // initialize initial velocity:
           .attr("vy", 0);
       groupEnter
         .append("text")
-          .attr("fill", "darkred")
+          .attr("fill", (d) => {
+            if (d.name[0] === "F") {
+              return "navy";
+            } else {
+              return "darkred";
+            }
+          })
           .attr("font-family", "sans-serif")
           .attr("font-size", "15px")
           .attr("text-anchor", "middle")
