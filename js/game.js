@@ -14,27 +14,26 @@ let queue = [];
 // If you don't want to add event, then simple add the script at the end of the html file
 document.addEventListener("DOMContentLoaded", () => {
   d3.csv("./data/change.csv", (d) => {
-    data = d;
-    console.log(d);
-    console.log(data);
+    data = d.filter(row => row.population != ".."); //filter the empty popoulation row
   });
   let svg = d3.select("svg")
-    .attr("width",  window.innerWidth - 300)
+    .attr("width",  800)
     .attr("height", window.innerHeight);
 
+  const gameWidth = parseInt(svg.attr("width"));
+  const gameHeight = parseInt(svg.attr("height"));
+
   let rScale = d3.scaleLinear() // radius scale
-    .domain([2851, 275067797])
-    .range([100, 500]); // width / number of data, divide 2 again cus this is radius scale
+    .range([50, 300]); // width / number of data, divide 2 again cus this is radius scale
 
   let mScale = d3.scaleLinear() // mass scale
-    .domain([2851, 275067797])
-    .range([50, 100]);
+    .range([5, 50]);
 
   //Create shield:
   svg.append("circle")
-    .attr("cx", parseInt(svg.attr("width"))/2)
+    .attr("cx", gameWidth/2)
     .attr("cy", parseInt(svg.attr("height")) - 300)
-    .attr("r", 15)
+    .attr("r", 25)
     .attr("id", "shield")
     .attr("fill", "red");
 
@@ -48,17 +47,21 @@ document.addEventListener("DOMContentLoaded", () => {
   //Game Loop:
   let idx = 0;
   const interval = setInterval(() => {
-    if (queue.length < 3) {
+    // update domain: (doesnt work if put these lines above)
+    rScale.domain([2851, 275067797]);
+    mScale.domain([2851, 275067797]);
+
+    // Loading data to queue
+    if (queue.length < 4) { // increase queue length by changing this number
       queue.push(data[idx++]);
-      console.log(data);
-      console.log(queue);
       const circle = svg.selectAll(".data-circle");
       circle
         .data(queue)
         .enter().append("circle")
-          .attr("cx", parseInt(svg.attr("width"))/2 - 10)
-          .attr("cy", (d, i) => -i * 1000)
-          .attr("r", d => (rScale(d.population)) )
+          // .filter(d => { return (d.population !== ".."); })
+          .attr("cx", (d) => gameWidth/3 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
+          .attr("cy", (d,i) => -400)
+          .attr("r", d => {console.log(d.population); return rScale(d.population); } )
           .attr("fill", "steelblue")
           .attr("fill-opacity", 0.5)
           .attr("class", "data-circle")
@@ -82,10 +85,11 @@ document.addEventListener("DOMContentLoaded", () => {
         hasCollision = true;
       } else Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
       MyMath.updatePos(circles[i], Fnet, deltaT);
-      console.log(queue);
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
-        queue = queue.slice(1);
+        console.log(queue);
+        queue.splice(idxToRemove(idx-1), 1);
+        // queue = queue.slice(1);
       }
     }
   }, deltaT);
@@ -102,9 +106,8 @@ function isOutOfFrame(htmlCircle) {
   return ((cx+r)<=leftBound || (cx-r)>=rightBound || (cy+r)>bottomBound);
 }
 
-function loadJSONtoData(year, age) {
-  getPopulation(year, age)
-    .then((response) => {
-      data = response;
-    });
+function idxToRemove(dataIdx) { // get the object in data array, to use it to find the index in queue
+  for( let i = 0; i < queue.length; i ++) {
+    if (data[dataIdx].Country === queue[i].Country) return i;
+  }
 }

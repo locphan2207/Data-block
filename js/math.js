@@ -42,14 +42,14 @@ export const detectCollision = (htmlCir1, htmlCir2) => {
 
 // Gravity force:
 export function getFg(htmlCir) {
-  const a = [0, 1]; // gravity, positive 9.8 because origin on top, change to 1 becuase it so fast
+  const a = [0, 9.8]; // gravity, positive 9.8 because origin on top, change to 1 becuase it so fast
   const m = parseInt(htmlCir.getAttribute("m"));
   return multiplyVector(a, m);
 }
 
 // Spring force: (in this we calcuate Fs from circle 2 applies on circle 1)
 export function getFs(htmlCir1, htmlCir2) {
-  const k = 100; // Spring constant 1000 seems nice
+  const k = 1000; // Spring constant 1000 seems nice
   const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
   const positionMag = vecMag(positionSub);
   const r1 = parseInt(htmlCir1.getAttribute("r"));
@@ -63,7 +63,6 @@ export function getFs(htmlCir1, htmlCir2) {
 }
 
 export function getFnet(...Fnet) {
-  // console.log(Fnet);
   let Ftotal = [0,0,0];
   for (let i = 0; i < Fnet.length; i++) {
     Ftotal = addVector(Ftotal, Fnet[i]); // Ftotal += Fnet[i]
@@ -81,11 +80,10 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   v = addVector(v, adt); // v = v0 + a*dt
   htmlCir.setAttribute('vx', v[0]);
   htmlCir.setAttribute('vy', v[1]);
-  console.log(v);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-  cx = cx + (v[0] * deltaT) / 300;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
-  cy = cy + (v[1] * deltaT) / 300;
+  cx = cx + (v[0] * deltaT) / 5000;  // divide 100 to fit the screen speed, accerleration = 9.8 pixels/s^2 is too much
+  cy = cy + (v[1] * deltaT) / 5000;
   // debugger
   htmlCir.setAttribute("cx",  cx + (v[0] * deltaT) / 500 ); //x = x0 + v*dt
   htmlCir.setAttribute("cy", cy + (v[1] * deltaT) / 500 );
