@@ -46,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   //Game Loop:
   let idx = 0;
-  const interval = setInterval(() => {
+  const runFrame = () => {
     // update domain: (doesnt work if put these lines above)
     rScale.domain([2851, 275067797]);
     mScale.domain([2851, 275067797]);
@@ -87,12 +87,14 @@ document.addEventListener("DOMContentLoaded", () => {
       MyMath.updatePos(circles[i], Fnet, deltaT);
       if (isOutOfFrame(circles[i])) {
         circles[i].remove();
-        console.log(queue);
         queue.splice(idxToRemove(idx-1), 1);
         // queue = queue.slice(1);
       }
     }
-  }, deltaT);
+
+    window.requestAnimationFrame(runFrame); // a better version of setInterval, call functino again inside function
+  };
+  window.requestAnimationFrame(runFrame); // stop frame, use cancelAnimationFrame(frameId);
 });
 
 function isOutOfFrame(htmlCircle) {
