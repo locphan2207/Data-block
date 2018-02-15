@@ -68,15 +68,13 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("class", "data-circle")
           .attr("m", (d) => mScale(d.population) )
           .attr("vx", 0) // initialize initial velocity:
-          .attr("vy", 0)
-          .attr("population", (d) => d.population)
-          .attr("country", (d) => d.Country);
+          .attr("vy", 0);
       groupEnter
         .append("text")
         .attr("fill", "red")
         .attr("font-family", "sans-serif")
         .attr("font-size", "15px")
-        .text((d) => d.population);
+        .text((d) => `${d.population}\n${d.country}`);
 
       group.data(queue).exit().remove();
     }
