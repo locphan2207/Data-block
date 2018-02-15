@@ -5,11 +5,34 @@
     <title>Data Block</title>
     <script src="https://d3js.org/d3.v5.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <link rel="stylesheet" href="./css/style.css"></link>
+    <!-- <link rel="stylesheet" href="./css/style.css"></link> -->
+    <style>
+      body {
+        background: linear-gradient(lemonchiffon, lightyellow);
+        min-height: 703px;
+        min-width: 891px;
+      }
+
+      svg {
+        position: fixed;
+        top: 0;
+        left: 25%;
+        border: 2px solid black;
+      }
+
+      #game-name {
+        color: red;
+      }
+
+      #pause {
+        color: pink;
+      }
+    </style>
     <script type="text/javascript" src="./bundle.js"></script>
   </head>
   <body>
-    <h1>Data Block</h1>
+    <h1 id="game-name">Data Block</h1>
+    <h2 id="pause">Playing</h2>
     <svg>
     </svg>
   </body>

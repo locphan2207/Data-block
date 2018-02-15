@@ -8,10 +8,10 @@ body {
 svg {
   position: fixed;
   top: 0;
-  left: 25%;
+  left: 5%;
   border: 2px solid black;
 }
 
-h1 {
-
+.game-name {
+  color: red;
 }

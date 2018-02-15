@@ -55,9 +55,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!isPaused) {
       isPaused = true;
       console.log(isPaused);
+      $("#pause").text("Paused");
       window.cancelAnimationFrame(frameId);
     } else {
       isPaused = false;
+      $("#pause").text("Playing");
       console.log(isPaused);
       frameId = window.requestAnimationFrame(runFrame);
     }
