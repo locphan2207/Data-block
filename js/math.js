@@ -84,14 +84,14 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   htmlCir.setAttribute('vy', v[1]);
   let cx = parseInt(htmlCir.getAttribute("cx"));
   let cy = parseInt(htmlCir.getAttribute("cy"));
-  cx = cx + (v[0] * deltaT) / 400;
-  cy = cy + (v[1] * deltaT) / 400;
+  cx = cx + (v[0] * deltaT) / 600;
+  cy = cy + (v[1] * deltaT) / 600;
   // debugger
   htmlCir.setAttribute("cx", cx ); //x = x0 + v*dt
   htmlCir.setAttribute("cy", cy );
 
   const parent = d3.select(htmlCir.parentNode);
-  parent.select("text")  //also update text position
+  parent.selectAll("text")  //also update text position
     .attr("dx", -parent.select("circle").attr("r")/2)
     .attr("x", cx)
     .attr("y", cy);

@@ -24,23 +24,36 @@ document.addEventListener("DOMContentLoaded", () => {
   const gameHeight = parseInt(svg.attr("height"));
 
   let rScale = d3.scaleLinear() // radius scale
-    .range([50, 300]); // width / number of data, divide 2 again cus this is radius scale
+    .range([40, 500]); // width / number of data, divide 2 again cus this is radius scale
 
   let mScale = d3.scaleLinear() // mass scale
     .range([5, 50]);
 
   //Create shield:
-  svg.append("circle")
-    .attr("cx", gameWidth/2)
-    .attr("cy", parseInt(svg.attr("height")) - 300)
-    .attr("r", 25)
+  // svg.append("circle");
+  //   .attr("cx", gameWidth/2)
+  //   .attr("cy", parseInt(svg.attr("height")) - 300)
+  //   .attr("r", 25)
+  //   // .attr("id", "shield")
+  //   .attr("fill", "red");
+
+  const shieldR = 25;
+  svg.append("svg:image")
+    .attr('x', gameWidth/2)
+    .attr('y', gameHeight - 300)
+    .attr('width', shieldR * 2)
+    .attr('height', shieldR * 2)
+    .attr('r', shieldR) // for calculating
+    .attr('cx', gameWidth/2)
+    .attr('cy', gameHeight - 300)
     .attr("id", "shield")
-    .attr("fill", "red");
+    .attr("xlink:href", "./images/shield.svg.png");
 
   //Find HTML elements:
   const shield = document.getElementById('shield');
 
   document.addEventListener("mousemove", (e) => {
+    shield.setAttribute("x", e.pageX);
     shield.setAttribute("cx", e.pageX);
   });
 
@@ -52,17 +65,18 @@ document.addEventListener("DOMContentLoaded", () => {
     mScale.domain([2851, 275067797]);
 
     // Loading data to queue
-    if (queue.length < 4) { // increase queue length by changing this number
+    if (queue.length < 3) { // increase queue length by changing this number
       queue.push(data[idx++]);
-      const group = svg.selectAll("g");
+      console.log(queue);
+      const group = svg.selectAll(".group");
       const groupEnter = group
         .data(queue)
-        .enter().append("g");
+        .enter().append("g").attr("class", "group");
       groupEnter
         .append("circle")
-          .attr("cx", (d) => gameWidth/3 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
+          .attr("cx", (d) => gameWidth/6 + Math.random()*gameWidth/3 ) //random position from 1/3 screen to 2/3 screen
           .attr("cy", (d,i) => -400)
-          .attr("r", d => {console.log(d.population); return rScale(d.population); } )
+          .attr("r", d => rScale(d.population))
           .attr("fill", "steelblue")
           .attr("fill-opacity", 0.5)
           .attr("class", "data-circle")
@@ -71,10 +85,16 @@ document.addEventListener("DOMContentLoaded", () => {
           .attr("vy", 0);
       groupEnter
         .append("text")
-        .attr("fill", "red")
-        .attr("font-family", "sans-serif")
-        .attr("font-size", "15px")
-        .text((d) => `${d.population}\n${d.country}`);
+          .attr("fill", "darkred")
+          .attr("font-family", "sans-serif")
+          .attr("font-size", "15px")
+          .text((d) => d.country);
+      groupEnter
+        .append("text")
+          .attr("fill", "black")
+          .attr("font-family", "sans-serif")
+          .attr("dy", 20) //shift 10px down
+          .text((d) => d.population);
 
       group.data(queue).exit().remove();
     }
