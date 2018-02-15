@@ -90,7 +90,9 @@ export function updatePos(htmlCir, Fnet, deltaT) {
   htmlCir.setAttribute("cx", cx ); //x = x0 + v*dt
   htmlCir.setAttribute("cy", cy );
 
-  d3.select(htmlCir.parentNode).select("text")
+  const parent = d3.select(htmlCir.parentNode);
+  parent.select("text")  //also update text position
+    .attr("dx", -parent.select("circle").attr("r")/2)
     .attr("x", cx)
     .attr("y", cy);
 

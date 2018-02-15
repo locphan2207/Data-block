@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
         .append("text")
         .attr("fill", "red")
         .attr("font-family", "sans-serif")
-        .attr("font-size", "20px")
+        .attr("font-size", "15px")
         .text((d) => d.population);
 
       group.data(queue).exit().remove();
@@ -83,25 +83,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const circles = document.getElementsByClassName("data-circle");
     for (let i = 0; i < circles.length; i++) {
-      // Text:
-      // if (!document.getElementById(`text${i}`)) {
-      //   const newText = svg.append("text")
-      //     .text(`${circles[i].getAttribute("population")}`)
-      //     .attr("id", `text${i}`)
-      //     .attr("x", circles[i].getAttribute("cx"))
-      //     .attr("y", circles[i].getAttribute("cy"));
-      //     // .attr("fill", "red")
-      //     // .attr("font-family", "sans-serif")
-      //     // .attr("font-size", "20px");
-      //
-      //   console.log(newText);
-      // } else {
-      //   console.log("update div");
-      //   d3.select(`#text${i}`)
-      //     .attr("x", circles[i].getAttribute("cx"))
-      //     .attr("y", circles[i].getAttribute("cy"));
-      // }
-
       // Physics:
       let Fnet;
       let hasCollision = false;
@@ -114,9 +95,8 @@ document.addEventListener("DOMContentLoaded", () => {
       } else Fnet = MyMath.getFnet(MyMath.getFg(circles[i]));
       MyMath.updatePos(circles[i], Fnet, deltaT);
       if (isOutOfFrame(circles[i])) {
-        circles[i].remove();
-        // document.getElementById(`text${i}`).remove();
-        // queue.splice(idxToRemove(idx-1), 1);
+        d3.select(circles[i].parentNode).remove(); //remove group (circle + text)
+        queue.splice(idxToRemove(idx-1), 1);
         // queue = queue.slice(1);
       }
     }
