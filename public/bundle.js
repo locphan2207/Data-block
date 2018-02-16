@@ -10008,7 +10008,6 @@ document.addEventListener("DOMContentLoaded", function () {
     isMuted = ~isMuted; //toggle
     if (isMuted) mute.setAttribute("src", "public/images/mute.svg");else mute.setAttribute("src", "./public/images/unmute.svg");
   });
-
   // Event to show tutorial modal:
   var gameRule = document.getElementById('tutorial-button');
   gameRule.addEventListener("click", function () {

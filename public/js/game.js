@@ -91,7 +91,6 @@ document.addEventListener("DOMContentLoaded", () => {
     if (isMuted) mute.setAttribute("src", "public/images/mute.svg");
     else mute.setAttribute("src", "./public/images/unmute.svg");
   });
-
   // Event to show tutorial modal:
   const gameRule = document.getElementById('tutorial-button');
   gameRule.addEventListener("click", () => {
