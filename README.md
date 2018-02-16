@@ -14,7 +14,7 @@ Each data block has a shape. The size of a block is determined by how large of i
 * Basic Physic Laws on all objects (gravity, collision, damping force)
 * AI Character's behavior
 * Game pause/unpause
-* Sounds on collisions
+* Sounds on collisions. Mute button
 
 ## Layout
 This game has one single screen with the `svg` element created by `D3`. The playing area is in the center of the screen. There are instructions on the left, score board on the right, mute sound button, and links to my personal sites.   
@@ -45,7 +45,7 @@ Positions are updated after combine all forces applying on the object and calcul
 The character's behavior is designed to run toward the closest falling object.  
 To do it, I need to compare all distances of all circles in game window with the character, then make character move closer along x-axis to the closest circle
 
-### Future features:
+## Future features:
 - [ ] More data sets. Let players choose which data set to play with.
 - [ ] Display whole data set on the right side.
 - [ ] More character icons.

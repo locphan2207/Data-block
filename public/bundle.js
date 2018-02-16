@@ -9943,6 +9943,7 @@ function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj;
 // Globals:
 var deltaT = 1;
 var isPaused = false;
+var isMuted = false;
 var score = 0;
 var data = [];
 var queue = [];
@@ -9999,6 +10000,13 @@ document.addEventListener("DOMContentLoaded", function () {
         frameId = window.requestAnimationFrame(runFrame);
       }
     }
+  });
+
+  // Mute:
+  var mute = document.getElementById('mute');
+  mute.addEventListener("click", function (e) {
+    isMuted = ~isMuted; //toggle
+    if (isMuted) mute.setAttribute("src", "public/images/mute.svg");else mute.setAttribute("src", "public/images/unmute.svg");
   });
 
   // Event to show tutorial modal:
@@ -10107,8 +10115,10 @@ function characterCollision(frameId, idx) {
   var character = document.getElementById("character");
   for (var i = 0; i < circles.length; i++) {
     if (MyMath.detectCollision(circles[i], character)) {
-      var sound = new Audio("public/sound/Frying Pan Impact-SoundBible.com-786709826.wav"); // buffers automatically when created
-      sound.play();
+      if (!isMuted) {
+        var sound = new Audio("public/sound/Frying Pan Impact-SoundBible.com-786709826.wav"); // buffers automatically when created
+        sound.play();
+      }
       window.cancelAnimationFrame(frameId);
       showLoseWindow();
     }
@@ -10195,7 +10205,7 @@ function characterMove() {
 function collisionSound() {
   var links = ["public/sound/Boing Cartoonish-SoundBible.com-277290791.wav", "public/sound/Bounce-SoundBible.com-12678623.wav", "public/sound/Cartoon Hop-SoundBible.com-553158131.wav"];
   var sound = new Audio(links[Math.floor(Math.random() * links.length)]); // buffers automatically when created
-  sound.play();
+  if (!isMuted) sound.play();
 }
 
 /***/ }),

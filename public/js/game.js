@@ -6,6 +6,7 @@ import {getPopulation} from './population_api';
 // Globals:
 const deltaT = 1;
 let isPaused = false;
+let isMuted = false;
 let score = 0;
 let data = [];
 let queue = [];
@@ -81,6 +82,14 @@ document.addEventListener("DOMContentLoaded", () => {
         frameId = window.requestAnimationFrame(runFrame);
       }
     }
+  });
+
+  // Mute:
+  const mute = document.getElementById('mute');
+  mute.addEventListener("click", (e) => {
+    isMuted = ~isMuted; //toggle
+    if (isMuted) mute.setAttribute("src", "public/images/mute.svg");
+    else mute.setAttribute("src", "public/images/unmute.svg");
   });
 
   // Event to show tutorial modal:
@@ -196,8 +205,10 @@ function characterCollision(frameId, idx) {
   const character = document.getElementById("character");
   for (let i = 0; i < circles.length; i++) {
     if (MyMath.detectCollision(circles[i], character)) {
-      const sound = new Audio("public/sound/Frying Pan Impact-SoundBible.com-786709826.wav"); // buffers automatically when created
-      sound.play();
+      if (!isMuted) {
+        const sound = new Audio("public/sound/Frying Pan Impact-SoundBible.com-786709826.wav"); // buffers automatically when created
+        sound.play();
+      }
       window.cancelAnimationFrame(frameId);
       showLoseWindow();
     }
@@ -289,5 +300,5 @@ function collisionSound() {
     "public/sound/Cartoon Hop-SoundBible.com-553158131.wav",
   ];
   const sound = new Audio(links[Math.floor(Math.random() * links.length)]); // buffers automatically when created
-  sound.play();
+  if (!isMuted) sound.play();
 }

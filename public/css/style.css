@@ -172,6 +172,7 @@ svg {
   color: #5E4352;
   border-radius: 4px;
   cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 #tutorial-button:hover {
@@ -185,4 +186,18 @@ svg {
   top: 7px;
   right: 7px;
   z-index: 4;
+  cursor: pointer;
 }
+ #mute {
+   width: 50px;
+   cursor: pointer;
+   background: #EAF4F4;
+   padding: 5px;
+   border-radius: 4px;
+   transition: all .2s ease-in-out;
+ }
+
+ #mute:hover {
+   background: none;
+   border: 1px solid #6B9080;
+ }
