@@ -10177,6 +10177,7 @@ function characterMove() {
     distanceArr.push(MyMath.getDistance(circles[i], character));
   }
   var closestCir = circles[distanceArr.indexOf(Math.min.apply(Math, distanceArr))];
+  if (!closestCir) return;
   // Move left if closest circle on left side
   var charX = parseInt(character.getAttribute("x"));
   var cirX = parseInt(closestCir.getAttribute("cx"));

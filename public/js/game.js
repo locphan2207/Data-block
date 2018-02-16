@@ -269,6 +269,7 @@ function characterMove() {
     distanceArr.push(MyMath.getDistance(circles[i], character));
   }
   const closestCir = circles[distanceArr.indexOf(Math.min(...distanceArr))];
+  if (!closestCir) return;
   // Move left if closest circle on left side
   let charX = parseInt(character.getAttribute("x"));
   let cirX = parseInt(closestCir.getAttribute("cx"));
