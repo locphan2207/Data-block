@@ -9998,7 +9998,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-
   // Mute:
   var mute = document.getElementById('mute');
   mute.addEventListener("click", function (e) {

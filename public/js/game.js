@@ -80,7 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
-
   // Mute:
   const mute = document.getElementById('mute');
   mute.addEventListener("click", (e) => {
