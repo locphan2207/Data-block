@@ -129,6 +129,41 @@ svg {
   font-family: 'Pacifico', cursive;
 }
 
+.personal-links-container {
+  position: fixed;
+  right: -150px; /*svg margin left + svg width + 20px*/
+  top: 25%;
+  background: #CFB1B7;
+  padding: 20px;
+  border-top-left-radius: 14px;
+  border-bottom-left-radius: 14px;
+  /* border: 1px solid #CFB1B7; */
+  /* width: 300px; */
+  transition: right .5s ease-in-out;
+  display: flex;
+}
+
+.personal-links-container:hover {
+  right: 0;
+}
+
+.personal-links-container>p {
+  padding: 7px;
+  max-width: 100px;
+  color: #5A2A27;
+  margin: 0;
+}
+
+.personal-links-container>a {
+  text-decoration: none;
+}
+
+.personal-links-container>a>img {
+  height: 50px;
+  padding: 10px 10px 0 0;
+}
+
+
 #tutorial-button {
   margin: 20px 0;
   padding: 10px 20px;

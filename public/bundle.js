@@ -10041,6 +10041,7 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
   //----Game Loop-----:
   var idx = 1;
   var frameId = void 0;
@@ -10106,6 +10107,8 @@ function characterCollision(frameId, idx) {
   var character = document.getElementById("character");
   for (var i = 0; i < circles.length; i++) {
     if (MyMath.detectCollision(circles[i], character)) {
+      var sound = new Audio("public/sound/Frying Pan Impact-SoundBible.com-786709826.wav"); // buffers automatically when created
+      sound.play();
       window.cancelAnimationFrame(frameId);
       showLoseWindow();
     }
@@ -10129,8 +10132,7 @@ function shieldCollision(idx) {
     if (MyMath.detectCollision(circles[i], shield)) {
       Fnet = MyMath.getFnet(MyMath.getFg(circles[i]), MyMath.getFs(circles[i], shield));
       //sound:
-      var sound = new Audio("public/sound/Bounce-SoundBible.com-12678623.wav"); // buffers automatically when created
-      sound.play();
+      collisionSound();
 
       hasCollision = true;
       score += 500 - parseInt(circles[i].getAttribute("r"));
@@ -10187,6 +10189,12 @@ function characterMove() {
   }
   character.setAttribute("x", charX);
   character.setAttribute("cx", charX);
+}
+
+function collisionSound() {
+  var links = ["public/sound/Boing Cartoonish-SoundBible.com-277290791.wav", "public/sound/Bounce-SoundBible.com-12678623.wav", "public/sound/Cartoon Hop-SoundBible.com-553158131.wav"];
+  var sound = new Audio(links[Math.floor(Math.random() * links.length)]); // buffers automatically when created
+  sound.play();
 }
 
 /***/ }),
