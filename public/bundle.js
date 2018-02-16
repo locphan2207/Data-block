@@ -10006,7 +10006,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var mute = document.getElementById('mute');
   mute.addEventListener("click", function (e) {
     isMuted = ~isMuted; //toggle
-    if (isMuted) mute.setAttribute("src", "public/images/mute.svg");else mute.setAttribute("src", "public/images/unmute.svg");
+    if (isMuted) mute.setAttribute("src", "public/images/mute.svg");else mute.setAttribute("src", "./public/images/unmute.svg");
   });
 
   // Event to show tutorial modal:
