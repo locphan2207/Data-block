@@ -3,16 +3,17 @@ import * as MyMath from './math';
 
 import {getPopulation} from './population_api';
 
+// Globals:
 const deltaT = 1;
 let score = 0;
 let data = [];
 let queue = [];
 let rScale = d3.scaleLinear() // radius scale
   .range([40, 500]); // width / number of data, divide 2 again cus this is radius scale
-
 let mScale = d3.scaleLinear() // mass scale
   .range([5, 50]);
 
+// ----------------MAIN-------------------
 // Note: Becuase I add this script on top of the html file, so I need to make
 // an event listener to wait for all content loaded before running the code.
 // If you don't want to add event, then simple add the script at the end of the html file
@@ -141,11 +142,13 @@ document.addEventListener("DOMContentLoaded", () => {
 
     shieldCollision(idx);
     frameId = window.requestAnimationFrame(runFrame); // a better version of setInterval, call functino again inside function
+    characterMove();
     characterCollision(frameId, idx); // have to call this after requestFrame..
   }
   frameId = window.requestAnimationFrame(runFrame); // start frame, use cancelAnimationFrame(frameId);
 });
 
+// -------Functions area -------
 function characterCollision(frameId, idx) {
   const circles = document.getElementsByClassName("data-circle");
   const character = document.getElementById("character");
@@ -176,7 +179,7 @@ function shieldCollision(idx) {
         MyMath.getFg(circles[i]),
         MyMath.getFs(circles[i], shield)
       );
-      
+
       hasCollision = true;
       score += 500 - parseInt(circles[i].getAttribute("r"));
       updateScore();
@@ -210,4 +213,24 @@ function idxToRemove(dataIdx) { // get the object in data array, to use it to fi
   for( let i = 0; i < queue.length; i ++) {
     if (data[dataIdx].Country === queue[i].Country) return i;
   }
+}
+
+function characterMove() {
+  const circles = document.getElementsByClassName("data-circle");
+  const character = document.getElementById("character");
+  const distanceArr = [];
+  for (let i = 0; i < circles.length; i++) {
+    distanceArr.push(MyMath.getDistance(circles[i], character));
+  }
+  const closestCir = circles[distanceArr.indexOf(Math.min(...distanceArr))];
+  // Move left if closest circle on left side
+  let charX = parseInt(character.getAttribute("x"));
+  let cirX = parseInt(closestCir.getAttribute("cx"));
+  if ((cirX < charX) && (charX - cirX) > 3) { // check if the x-diference is not smaller than 3, 
+    charX -= 3;
+  } else if ((cirX > charX) && (cirX - charX) > 3) {  // dont move char if x-difference is smaller than 3
+    charX += 3;
+  }
+  character.setAttribute("x", charX);
+  character.setAttribute("cx", charX);
 }

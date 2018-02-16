@@ -32,10 +32,14 @@ export const vecMag = (vector) => {
   return Math.sqrt(x2 + y2); // sqrt(x^2 + y^2)
 };
 
+export const getDistance = (htmlCir1, htmlCir2) => {
+  const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
+  return vecMag(positionSub);
+};
+
 export const detectCollision = (htmlCir1, htmlCir2) => {
   // If the |position vector2 - position vector1| < (|radius1| + |radius2|)
-  const positionSub = subtractVector(vecPos(htmlCir1), vecPos(htmlCir2));
-  const positionMag = vecMag(positionSub);
+  const positionMag = getDistance(htmlCir1, htmlCir2);
   const r1 = parseInt(htmlCir1.getAttribute("r"));
   const r2 = parseInt(htmlCir2.getAttribute("r"));
   const radiusMag = Math.abs(r1) +  Math.abs(r2);
