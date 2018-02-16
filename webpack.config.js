@@ -1,9 +1,9 @@
 var path = require("path");
 
 module.exports = {
-  entry: "./js/game.js",
+  entry: "./public/js/game.js",
   output: {
-    path: path.resolve(__dirname),
+    path: path.resolve(__dirname, './public'),
     filename: "bundle.js"
   },
   module: {
@@ -13,7 +13,7 @@ module.exports = {
         exclude: /(node_modules)/,
         loader: "babel-loader",
         query: {
-          presets: ["es2015"]
+          presets: ["env"]
         }
       }
     ]
