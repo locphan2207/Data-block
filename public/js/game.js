@@ -23,7 +23,6 @@ document.addEventListener("DOMContentLoaded", () => {
   d3.csv("./public/data/change.csv", (d) => {
     data = d3.shuffle(d.filter(row => row.population !== "..")); //filter the empty popoulation row, and shuffle
   });
-  ///fdsafdsaffdfd
   let svg = d3.select("svg")
     .attr("width",  800)
     .attr("height", window.innerHeight - 20);
@@ -72,13 +71,11 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.code === "Space") {
       if (!isPaused) {
         isPaused = true;
-        console.log(isPaused);
         $("#pause").text("Paused");
         window.cancelAnimationFrame(frameId);
       } else {
         isPaused = false;
         $("#pause").text("Playing");
-        console.log(isPaused);
         frameId = window.requestAnimationFrame(runFrame);
       }
     }
@@ -121,7 +118,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       const lose = document.getElementsByClassName('lose-window-container')[0];
       className = lose.getAttribute("class");
-      console.log(className);
       if (className.slice(22) === "display-modal") {  //check if this window is open
         className = className.slice(0, 21);
         lose.setAttribute("class", className);

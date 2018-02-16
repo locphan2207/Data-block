@@ -9962,7 +9962,6 @@ document.addEventListener("DOMContentLoaded", function () {
       return row.population !== "..";
     })); //filter the empty popoulation row, and shuffle
   });
-  ///fdsafdsaffdfd
   var svg = d3.select("svg").attr("width", 800).attr("height", window.innerHeight - 20);
 
   var gameWidth = parseInt(svg.attr("width"));
@@ -9990,13 +9989,11 @@ document.addEventListener("DOMContentLoaded", function () {
     if (e.code === "Space") {
       if (!isPaused) {
         isPaused = true;
-        console.log(isPaused);
         $("#pause").text("Paused");
         window.cancelAnimationFrame(frameId);
       } else {
         isPaused = false;
         $("#pause").text("Playing");
-        console.log(isPaused);
         frameId = window.requestAnimationFrame(runFrame);
       }
     }
@@ -10039,7 +10036,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
       var lose = document.getElementsByClassName('lose-window-container')[0];
       className = lose.getAttribute("class");
-      console.log(className);
       if (className.slice(22) === "display-modal") {
         //check if this window is open
         className = className.slice(0, 21);
