@@ -80,6 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  const gameRule = document.getElementById('tutorial-button');
+  gameRule.addEventListener("click", showGameRule);
+
   //Game Loop:
   let idx = 1;
   let frameId;
@@ -167,6 +170,13 @@ function showLoseWindow() {
   loseWindow.setAttribute("class", className);
 }
 
+function showGameRule() {
+  const rule = document.getElementsByClassName('instruction-window-container')[0];
+  let className = rule.getAttribute("class");
+  className += " display-modal";
+  rule.setAttribute("class", className);
+}
+
 function shieldCollision(idx) {
   const circles = document.getElementsByClassName("data-circle");
   const shield = document.getElementById("shield");
@@ -226,7 +236,7 @@ function characterMove() {
   // Move left if closest circle on left side
   let charX = parseInt(character.getAttribute("x"));
   let cirX = parseInt(closestCir.getAttribute("cx"));
-  if ((cirX < charX) && (charX - cirX) > 3) { // check if the x-diference is not smaller than 3, 
+  if ((cirX < charX) && (charX - cirX) > 3) { // check if the x-diference is not smaller than 3,
     charX -= 3;
   } else if ((cirX > charX) && (cirX - charX) > 3) {  // dont move char if x-difference is smaller than 3
     charX += 3;

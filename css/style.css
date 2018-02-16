@@ -12,7 +12,7 @@ svg {
   border: 2px solid black;
 }
 
-.lose-window-container {
+.lose-window-container, .instruction-window-container {
   position: fixed;
   top: 0;
   left: 0;
@@ -20,6 +20,7 @@ svg {
   height: 100%;
   display: none;
   background: rgba(0,0,0, 0.7);
+  z-index: 2;
 }
 
 .lose-window {
@@ -27,12 +28,13 @@ svg {
   width: 25%;
   top: 50%;
   left: 50%;
-  transform: translate(-25%, -25%);
   padding: 30px;
   border-radius: 14px;
   background: #B6EFD4;
   border: 1px solid #A0CCDA;
   margin: 0 auto;
+  z-index: 3;
+  transform: translate(-50%, -50%);
 }
 
 .lose-window>h3 {
@@ -77,12 +79,34 @@ svg {
   color: #465775;
 }
 
-#instruction {
+.intro {
   max-width: 400px;
   line-height: 1.5;
   border: 1px solid #5B6C5D;
   padding: 15px;
   border-radius: 14px;
+}
+
+.instruction {
+  max-width: 500px;
+  line-height: 1.5;
+  border: 1px solid #5B6C5D;
+  padding: 15px;
+  border-radius: 14px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 30px;
+  border-radius: 14px;
+  background: #ECEBE4;
+  border: 1px solid #A0CCDA;
+  margin: 0 auto;
+  transform: translate(-50%, -50%);
+  z-index: 3;
+}
+
+.instruction>img {
+  width: 100%;
 }
 
 #instruction>p:first-child {
@@ -102,4 +126,19 @@ svg {
 #span2 {
   color: #EF6F6C;
   font-family: 'Pacifico', cursive;
+}
+
+#tutorial-button {
+  margin: 20px 0;
+  padding: 10px 20px;
+  background: #DFBBB1;
+  display: inline-block;
+  color: #5E4352;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#tutorial-button:hover {
+  background: none;
+  border: 1px solid #DFBBB1;
 }

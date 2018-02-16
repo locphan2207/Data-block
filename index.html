@@ -12,7 +12,7 @@
   <body>
     <h1 id="game-name">Data Block</h1>
     <h2 id="pause">Playing</h2>
-    <div id="instruction">
+    <div class="intro">
       <p>
         Feeling bored when looking at data?
         <br>
@@ -25,6 +25,17 @@
         Where you can <span id="span2">play</span> with data 😎 🤗
       </p>
     </div>
+    <div id="tutorial-button">
+      Game Rules
+    </div>
+    <div class="instruction-window-container">
+      <div class="instruction">
+        <p>Your character wants those falling data objects, but they don't know it is harmful.</p>
+        <p>You have to help them. Use mouse to control the Shield to push the data objects away from your character</p>
+        <p>You gain more point for hitting the small ones.</p>
+        <img src="./images/tutorial.gif" alt="">
+      </div>
+    </div>
     <svg>
     </svg>
     <div class="score-container">
@@ -32,7 +43,7 @@
     </div>
     <div class="lose-window-container">
       <div class="lose-window">
-        <h3>YOU LOSE</h3>
+        <h3>Your character got hit!</h3>
         <img src="./images/icons8-crying-48.png" alt="cry">
       </div>
     </div>
