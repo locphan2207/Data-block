@@ -19,10 +19,10 @@ let mScale = d3.scaleLinear() // mass scale
 // an event listener to wait for all content loaded before running the code.
 // If you don't want to add event, then simple add the script at the end of the html file
 document.addEventListener("DOMContentLoaded", () => {
-  d3.csv("./data/change.csv", (d) => {
+  d3.csv("./public/data/change.csv", (d) => {
     data = d3.shuffle(d.filter(row => row.population !== "..")); //filter the empty popoulation row, and shuffle
   });
-
+  ///fdsafdsaffdfd
   let svg = d3.select("svg")
     .attr("width",  800)
     .attr("height", window.innerHeight - 20);
@@ -220,6 +220,9 @@ function shieldCollision(idx) {
         MyMath.getFg(circles[i]),
         MyMath.getFs(circles[i], shield)
       );
+      //sound:
+      const sound = new Audio("public/sound/Bounce-SoundBible.com-12678623.wav"); // buffers automatically when created
+      sound.play();
 
       hasCollision = true;
       score += 500 - parseInt(circles[i].getAttribute("r"));
