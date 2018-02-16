@@ -5,6 +5,7 @@ import {getPopulation} from './population_api';
 
 // Globals:
 const deltaT = 1;
+let isPaused = false;
 let score = 0;
 let data = [];
 let queue = [];
@@ -64,26 +65,63 @@ document.addEventListener("DOMContentLoaded", () => {
     shield.setAttribute("x", e.pageX - 500); // shift because shield position depends on svg position
     shield.setAttribute("cx", e.pageX - 500);
   });
-  // Mouse click:
-  let isPaused = false;
-  document.addEventListener("click", (e) => {
-    if (!isPaused) {
-      isPaused = true;
-      console.log(isPaused);
-      $("#pause").text("Paused");
-      window.cancelAnimationFrame(frameId);
-    } else {
-      isPaused = false;
-      $("#pause").text("Playing");
-      console.log(isPaused);
-      frameId = window.requestAnimationFrame(runFrame);
+
+  // Pausing event:
+  document.addEventListener("keydown", (e) => {
+    if (e.code === "Space") {
+      if (!isPaused) {
+        isPaused = true;
+        console.log(isPaused);
+        $("#pause").text("Paused");
+        window.cancelAnimationFrame(frameId);
+      } else {
+        isPaused = false;
+        $("#pause").text("Playing");
+        console.log(isPaused);
+        frameId = window.requestAnimationFrame(runFrame);
+      }
     }
   });
 
+  // Event to show tutorial modal:
   const gameRule = document.getElementById('tutorial-button');
-  gameRule.addEventListener("click", showGameRule);
+  gameRule.addEventListener("click", () => {
+    isPaused = true;
+    $("#pause").text("Paused");
+    window.cancelAnimationFrame(frameId);
 
-  //Game Loop:
+    const rule = document.getElementsByClassName('instruction-window-container')[0];
+    let className = rule.getAttribute("class");
+    className += " display-modal";
+    rule.setAttribute("class", className);
+  });
+
+  // Close modal:
+  const closes = document.getElementsByClassName("close");
+  for (let i = 0; i < closes.length; i++) {
+    closes[i].addEventListener("click", () => {
+      isPaused = false;
+      $("#pause").text("Playing");
+      frameId = window.requestAnimationFrame(runFrame);
+
+      const rule = document.getElementsByClassName('instruction-window-container')[0];
+      let className = rule.getAttribute("class");
+      if (className.slice(29) === "display-modal") {  //check if this window is open
+        className = className.slice(0, 28);
+        rule.setAttribute("class", className);
+      }
+
+      const lose = document.getElementsByClassName('lose-window-container')[0];
+      className = lose.getAttribute("class");
+      console.log(className);
+      if (className.slice(22) === "display-modal") {  //check if this window is open
+        className = className.slice(0, 21);
+        lose.setAttribute("class", className);
+        location.reload();
+      }
+    });
+  }
+  //----Game Loop-----:
   let idx = 1;
   let frameId;
   function runFrame(error) {
@@ -168,13 +206,6 @@ function showLoseWindow() {
   let className = loseWindow.getAttribute("class");
   className += " display-modal";
   loseWindow.setAttribute("class", className);
-}
-
-function showGameRule() {
-  const rule = document.getElementsByClassName('instruction-window-container')[0];
-  let className = rule.getAttribute("class");
-  className += " display-modal";
-  rule.setAttribute("class", className);
 }
 
 function shieldCollision(idx) {

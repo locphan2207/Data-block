@@ -42,7 +42,7 @@ svg {
   color: #9F7E69;
 }
 
-.lose-window>img {
+.lose-window>img:last-child {
   margin-left: 50%;
   transform: translateX(-50%);
   padding: 10px 0;
@@ -94,6 +94,7 @@ svg {
   padding: 15px;
   border-radius: 14px;
   position: absolute;
+  /* position: relative; */
   top: 50%;
   left: 50%;
   padding: 30px;
@@ -105,7 +106,7 @@ svg {
   z-index: 3;
 }
 
-.instruction>img {
+.tutorial-pic {
   width: 100%;
 }
 
@@ -141,4 +142,12 @@ svg {
 #tutorial-button:hover {
   background: none;
   border: 1px solid #DFBBB1;
+}
+
+.close {
+  width: 20px;
+  position: absolute;
+  top: 7px;
+  right: 7px;
+  z-index: 4;
 }
