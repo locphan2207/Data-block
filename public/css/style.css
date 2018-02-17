@@ -65,6 +65,16 @@ svg {
   margin: 10px 0 0 0;
 }
 
+.data-info {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
+
+.data-info>span {
+  color: #84A59D;
+}
+
 #score {
   color: #465775;
   font-size: 150%;
